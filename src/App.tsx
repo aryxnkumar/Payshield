@@ -47,12 +47,10 @@ function ProtectedRoute({
 }
 
 function App() {
-  const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
-
   return (
     <AuthProvider>
       <AppDataProvider>
-        <BrowserRouter basename={basename}>
+        <BrowserRouter>
           <Routes>
             {/* Public */}
             <Route path="/" element={<LandingPage />} />
