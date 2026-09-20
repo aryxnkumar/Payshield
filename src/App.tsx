@@ -35,7 +35,10 @@ function ProtectedRoute({
 }) {
   const { user } = useAuth();
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   if (requireAdmin && user.role !== "admin") {
     return <Navigate to="/app/dashboard" replace />;
   }
@@ -44,10 +47,12 @@ function ProtectedRoute({
 }
 
 function App() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
+
   return (
     <AuthProvider>
       <AppDataProvider>
-        <BrowserRouter basename="/Payshield">
+        <BrowserRouter basename={basename}>
           <Routes>
             {/* Public */}
             <Route path="/" element={<LandingPage />} />
@@ -64,17 +69,26 @@ function App() {
               }
             >
               <Route index element={<Navigate to="/app/dashboard" replace />} />
+
               <Route path="dashboard" element={<CustomerDashboard />} />
+
               <Route path="transactions" element={<TransactionsPage />} />
+
               <Route
                 path="transactions/:id"
                 element={<TransactionDetailsPage />}
               />
+
               <Route path="raise-dispute" element={<RaiseDisputePage />} />
+
               <Route path="dispute-success" element={<DisputeSuccessPage />} />
+
               <Route path="disputes" element={<MyDisputesPage />} />
+
               <Route path="disputes/:id" element={<DisputeDetailsPage />} />
+
               <Route path="notifications" element={<NotificationsPage />} />
+
               <Route path="profile" element={<ProfilePage />} />
             </Route>
 
@@ -91,8 +105,11 @@ function App() {
                 index
                 element={<Navigate to="/admin/dashboard" replace />}
               />
+
               <Route path="dashboard" element={<AdminDashboard />} />
+
               <Route path="disputes" element={<AdminDisputesPage />} />
+
               <Route
                 path="disputes/:id"
                 element={<AdminDisputeDetailsPage />}
